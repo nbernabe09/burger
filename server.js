@@ -6,7 +6,7 @@ var exphbs = require("express-handlebars");
 var link = require("./config/connection.js");
 
 var app = express();
-var PORT = 8080;
+var port = process.env.PORT || 3000;
 
 if (process.env.JAWSDB_URL) {
   connection = mysql.createConnection(process.env.JAWSDB_URL);
@@ -79,5 +79,5 @@ function runServer() {
     );
   });
 
-  app.listen(PORT);
+  app.listen(port);
 }
