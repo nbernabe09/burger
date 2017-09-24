@@ -1,10 +1,6 @@
-DROP DATABASE IF EXISTS burgers_db;
+USE pjo261aosw03rt3y;
 
-CREATE DATABASE burgers_db;
-
-USE burgers_db;
-
-CREATE TABLE burgers (
+CREATE TABLE IF NOT EXISTS burgers (
   id INT AUTO_INCREMENT NOT NULL,
   burger_name VARCHAR(64) NOT NULL,
   devoured BOOLEAN DEFAULT FALSE,
