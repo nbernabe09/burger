@@ -36,7 +36,7 @@ connection.connect(function(err) {
 function runServer() {
   app.get("/", function(req, res) {
     connection.query(
-      "SELECT * FROM burgers_db.burgers",
+      "SELECT * FROM burgers",
       function(err, data) {
         if (err) throw err;
         var made = [];
@@ -59,7 +59,7 @@ function runServer() {
 
   app.post("/", function(req, res) {
     connection.query(
-      "INSERT INTO burgers_db.burgers (burger_name) VALUES (?)",
+      "INSERT INTO burgers (burger_name) VALUES (?)",
       [req.body.burger_name],
       function(err, result) {
         if (err) throw err;
@@ -70,7 +70,7 @@ function runServer() {
 
   app.put("/:id", function(req, res) {
     connection.query(
-      "UPDATE burgers_db.burgers SET devoured = TRUE WHERE id = ?",
+      "UPDATE burgers SET devoured = TRUE WHERE id = ?",
       [req.params.id],
       function(err, result) {
         if (err) throw err;
