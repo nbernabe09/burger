@@ -3,21 +3,21 @@ var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
 var mysql = require("mysql");
 var exphbs = require("express-handlebars");
-var link = require("./config/connection.js");
+// var link = require("./config/connection.js");
 
 var app = express();
 var port = process.env.PORT || 3000;
 
 if (process.env.JAWSDB_URL) {
   connection = mysql.createConnection(process.env.JAWSDB_URL);
-} else {
-  connection = mysql.createConnection({
-    host: link.connection.host,
-    port: link.connection.port,
-    user: link.connection.user,
-    password: link.connection.password,
-    database: link.connection.database
-  });
+// } else {
+//   connection = mysql.createConnection({
+//     host: link.connection.host,
+//     port: link.connection.port,
+//     user: link.connection.user,
+//     password: link.connection.password,
+//     database: link.connection.database
+//   });
 }
 
 app.use(methodOverride("_method"));
