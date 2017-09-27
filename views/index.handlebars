@@ -18,14 +18,17 @@
             Ordered Burgers
           </div>
           {{#each burgers}}
-            <div class="card-body">
-              <h4 class="card-title">
-                {{this.id}}. {{this.burger_name}}
-              </h4>
-              <form action="/{{this.id}}?_method=PUT" method="POST">
-                <button type="submit" class="btn btn-danger">Devour</button>
-              </form>
-            </div>
+            {{#unless this.devoured}}
+              <div class="card-body">
+                <h4 class="card-title">
+                  {{this.id}}. {{this.burger_name}}
+                </h4>
+                <form action="/{{this.id}}?_method=PUT" method="POST">
+                  <input type="hidden" name="devoured" value="true">
+                  <button type="submit" class="btn btn-danger">Devour</button>
+                </form>
+              </div>
+            {{/unless}}
           {{/each}}
         </div>
       </div>
@@ -34,12 +37,14 @@
           <div class="card-header">
             Eaten Burgers
           </div>
-          {{#each devoured}}
-            <div class="card-body">
-              <h4 class="card-title">
-                {{this.id}}. {{this.burger_name}}
-              </h4>
-            </div>
+          {{#each burgers}}
+            {{#if this.devoured}}
+              <div class="card-body">
+                <h4 class="card-title">
+                  {{this.id}}. {{this.burger_name}}
+                </h4>
+              </div>
+            {{/if}}
           {{/each}}
         </div>
       </div>

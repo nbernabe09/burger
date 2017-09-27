@@ -1,85 +1,64 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var methodOverride = require("method-override");
-var mysql = require("mysql");
 var exphbs = require("express-handlebars");
-// var link = require("./config/connection.js");
+var routes = require("./controllers/burgers_controller.js");
 
 var app = express();
 var port = process.env.PORT || 3000;
 
-if (process.env.JAWSDB_URL) {
-  connection = mysql.createConnection(process.env.JAWSDB_URL);
-// } else {
-//   connection = mysql.createConnection({
-//     host: link.connection.host,
-//     port: link.connection.port,
-//     user: link.connection.user,
-//     password: link.connection.password,
-//     database: link.connection.database
-//   });
-}
-
+// app.use(express.static("public"));
 app.use(methodOverride("_method"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
+app.use("/", routes);
 
-connection.connect(function(err) {
-  if (err) {
-    return console.error("Error connecting: " + err.stack);
-  }
-  console.log("Connected as id " + connection.threadId);
-  runServer();
+app.listen(port, function() {
+  console.log("App listening on PORT " + port);
 });
 
-function runServer() {
-  app.get("/", function(req, res) {
-    connection.query(
-      "SELECT * FROM burgers",
-      function(err, data) {
-        if (err) throw err;
-        var made = [];
-        var eaten = [];
+// app.get("/", function(req, res) {
+//   connection.query(
+//     "SELECT * FROM burgers",
+//     function(err, data) {
+//       if (err) throw err;
+//       var made = [];
+//       var eaten = [];
 
-        for (var i = 0; i < data.length; i++) {
-          if (!data[i].devoured) {
-            made.push(data[i]);
-          } else {
-            eaten.push(data[i]);
-          }
-        }
-        res.render("index", {
-          burgers: made,
-          devoured: eaten
-        });
-      }
-    );
-  });
+//       for (var i = 0; i < data.length; i++) {
+//         if (!data[i].devoured) {
+//           made.push(data[i]);
+//         } else {
+//           eaten.push(data[i]);
+//         }
+//       }
+//       res.render("index", {
+//         burgers: made,
+//         devoured: eaten
+//       });
+//     }
+//   );
+// });
 
-  app.post("/", function(req, res) {
-    connection.query(
-      "INSERT INTO burgers (burger_name) VALUES (?)",
-      [req.body.burger_name],
-      function(err, result) {
-        if (err) throw err;
-        res.redirect("/");
-      }
-    );
-  });
+// app.post("/", function(req, res) {
+//   connection.query(
+//     "INSERT INTO burgers (burger_name) VALUES (?)",
+//     [req.body.burger_name],
+//     function(err, result) {
+//       if (err) throw err;
+//       res.redirect("/");
+//     }
+//   );
+// });
 
-  app.put("/:id", function(req, res) {
-    connection.query(
-      "UPDATE burgers SET devoured = TRUE WHERE id = ?",
-      [req.params.id],
-      function(err, result) {
-        if (err) throw err;
-        res.redirect("/");
-      }
-    );
-  });
-
-  app.listen(port, function() {
-    console.log("App listening on PORT " + port);
-  });
-}
+// app.put("/:id", function(req, res) {
+//   connection.query(
+//     "UPDATE burgers SET devoured = TRUE WHERE id = ?",
+//     [req.params.id],
+//     function(err, result) {
+//       if (err) throw err;
+//       res.redirect("/");
+//     }
+//   );
+// });
